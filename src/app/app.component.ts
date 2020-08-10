@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {UserService} from './auth/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,9 @@ import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@an
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  ngOnInit(): void {
+  constructor(public userService: UserService) {
+  }
 
+  ngOnInit(): void {
   }
 }

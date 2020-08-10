@@ -1,10 +1,10 @@
 <div class="container-fluid">
-  <div class="row">
+  <div class="row" *ngIf="userService.isAuthenticated$ | async">
     <div class="col-12">
       <app-nav></app-nav>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="userService.isAuthenticated$ | async">
     <div class="col-12">
       <app-breadcrumbs></app-breadcrumbs>
     </div>

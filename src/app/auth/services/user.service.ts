@@ -9,12 +9,12 @@ export class UserService implements CanActivate {
   userAttempt$: BehaviorSubject<StoredUser> = new BehaviorSubject<StoredUser>(null);
   storedUsers$: BehaviorSubject<StoredUser[]> = new BehaviorSubject<StoredUser[]>([
     <StoredUser> {
-      username: 'user1',
-      password: 'user1',
+      username: 'u1',
+      password: 'u1',
     },
     <StoredUser> {
-      username: 'user2',
-      password: 'user2',
+      username: 'u2',
+      password: 'u2',
     },
   ]);
   isAuthenticated$: Observable<boolean>;

@@ -15,12 +15,16 @@ import {UserService} from './auth/services/user.service';
         canActivate: [UserService],
       },
       {
+        path: 'sales',
+        loadChildren: () => import('./sales/sales.module').then(m => m.SalesModule),
+      },
+      {
         path: 'login',
         component: LoginComponent,
-      }
+      },
     ])
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {
 }

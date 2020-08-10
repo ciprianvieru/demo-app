@@ -1,0 +1,78 @@
+<p-table [value]="values$ | async">
+  <ng-template pTemplate="caption">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-8">
+          <h3>Product sales</h3>
+        </div>
+        <div class="col-2">
+          <input [formControl]="search" placeholder="Search..." class="w-100">
+        </div>
+        <div class="col-1"></div>
+        <div class="col-1 text-right">
+          <a routerLink="sales/new" class="btn btn-primary"><i class="pi pi-plus"></i>Add sale</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let column of apiService.columns$ | async"
+          [pSortableColumn]="column.subHeaders ? '' : column.field"
+          [class.text-right]="apiService.isNumberColumn(column)"
+          [class.text-center]="!!column.subHeaders"
+          pReorderableColumn
+          pResizableColumn
+          [rowSpan]="column.subHeaders ? 1 : 2"
+          [colSpan]="column.subHeaders ? column.subHeaders.length : 1"
+      >
+        {{ column.header }}
+        <p-sortIcon [field]="column.field" *ngIf="!column.subHeaders"></p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th *ngFor="let column of apiService.columnsWithSubColumns$ | async"
+          [pSortableColumn]="column.field"
+          [class.text-right]="apiService.isNumberColumn(column)"
+          pResizableColumn
+          pReorderableColumn
+      >
+        {{ column.header }}
+        <p-sortIcon [field]="column.field"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-sale>
+    <tr>
+      <td *ngFor="let column of apiService.valueColumns$ | async"
+          [class.text-right]="apiService.isNumberColumn(column)"
+      >
+        <span *ngIf="apiService.isNumberColumn(column) && column.field !== 'productID'; else simpleColumn">
+          {{ sale[column.field || 'total'] | number }}
+        </span>
+        <ng-template #simpleColumn><span>{{ sale[column.field] }}</span></ng-template>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <tr>
+      <td></td>
+      <td><strong>Total</strong></td>
+      <td *ngFor="let column of apiService.numberColumns$ | async"
+          class="text-right">
+        {{ getTotal$(column) | async | number }}
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td *ngIf="(apiService.valueColumns$ | async) as valueColumns" [colSpan]="valueColumns.length">
+        <div class="alert alert-info">No sales found</div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

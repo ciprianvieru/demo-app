@@ -1,8 +1,8 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
-import {combineAll, debounceTime, distinctUntilChanged, map, switchMap, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {distinctUntilChanged, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {StoredUser} from '../../models/user.model';
 import {Router} from '@angular/router';
 
@@ -12,12 +12,10 @@ import {Router} from '@angular/router';
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
   form: FormGroup;
   attempt$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   isLocked$: Observable<boolean>;
-
-  private onDestroy$: Subject<void> = new Subject<void>();
 
   constructor(public userService: UserService,
               router: Router,
@@ -38,15 +36,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }),
         map(isAuthenticated => !isAuthenticated),
-        takeUntil(this.onDestroy$),
       )
     ;
-  }
-
-  ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy$.complete();
   }
 }

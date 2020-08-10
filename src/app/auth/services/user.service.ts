@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {StoredUser, User} from '../models/user.model';
-import {BehaviorSubject, Observable, combineLatest} from 'rxjs';
-import {filter, map, tap} from 'rxjs/operators';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {distinctUntilChanged, filter, map, tap} from 'rxjs/operators';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 @Injectable()
@@ -23,6 +23,7 @@ export class UserService implements CanActivate {
   constructor(private router: Router) {
     this.user$ = combineLatest([this.userAttempt$, this.storedUsers$])
       .pipe(
+        distinctUntilChanged(),
         tap(([user]) => !user && this.router.navigate(['login'])),
         filter(([user]) => !!user),
         map(([user, users]) => users.find(u => u.username === user.username

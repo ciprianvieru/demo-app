@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit} from '@angular/co
 import {UserService} from '../../services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {BehaviorSubject, combineLatest, Observable, Subject} from 'rxjs';
-import {combineAll, distinctUntilChanged, map, switchMap, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
+import {combineAll, debounceTime, distinctUntilChanged, map, switchMap, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
 import {StoredUser} from '../../models/user.model';
 import {Router} from '@angular/router';
 
@@ -29,12 +29,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.isLocked$ = this.attempt$
       .pipe(
-        withLatestFrom(this.form.valueChanges),
+        withLatestFrom(this.form.valueChanges.pipe(distinctUntilChanged())),
         tap(([, user]) => this.form.valid && this.userService.userAttempt$.next(<StoredUser> user)),
         switchMap(() => this.userService.isAuthenticated$),
         tap(isAuthenticated => {
           if (isAuthenticated) {
-            router.navigate(['home']);
+            router.navigate(['sales']);
           }
         }),
         map(isAuthenticated => !isAuthenticated),

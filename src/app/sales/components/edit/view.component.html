@@ -1,0 +1,16 @@
+{{ (saving$ | async) ? 'saving' : 'idle' }}
+<form *ngIf="(sale$ | async) && !(saved$ | async)" [formGroup]="form" class="w-50 align-middle">
+  <div *ngFor="let column of columns$ | async" class="form-group">
+    <label [htmlFor]="column.field">{{ column.header }}</label>
+    <input [type]="apiService.isNumberColumn(column) ? 'number' : 'text'"
+           [formControlName]="column.field"
+           [readOnly]="column.field === 'productID' || (isReadonly$ | async)"
+           id="{{ column.field }}"
+           class="form-control"
+    >
+  </div>
+  <div class="text-right">
+    <a class="btn btn-default" routerLink="/sales">Cancel</a>
+    <button class="btn btn-primary" (click)="saving$.next(true)">Save</button>
+  </div>
+</form>

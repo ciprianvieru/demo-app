@@ -1,5 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UserService} from './auth/services/user.service';
+import {LoadingIndicatorService} from './shared/services/loading-indicator.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +10,10 @@ import {UserService} from './auth/services/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  constructor(public userService: UserService) {
+  isLoading$: Observable<boolean> = this.indicatorService.indicator.isLoading$;
+
+  constructor(public userService: UserService,
+              private indicatorService: LoadingIndicatorService) {
   }
 
   ngOnInit(): void {

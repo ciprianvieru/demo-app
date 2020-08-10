@@ -10,8 +10,10 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12">
+    <div class="col-12" *ngIf="!(isLoading$ | async)">
       <router-outlet></router-outlet>
     </div>
+    <p-progressSpinner *ngIf="isLoading$ | async"></p-progressSpinner>
   </div>
 </div>
+<app-console></app-console>

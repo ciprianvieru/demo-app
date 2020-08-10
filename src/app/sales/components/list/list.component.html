@@ -10,7 +10,7 @@
         </div>
         <div class="col-1"></div>
         <div class="col-1 text-right">
-          <a routerLink="sales/new" class="btn btn-primary"><i class="pi pi-plus"></i>Add sale</a>
+          <a routerLink="new" class="btn btn-primary"><i class="pi pi-plus"></i>Add sale</a>
         </div>
       </div>
     </div>
@@ -30,6 +30,7 @@
         {{ column.header }}
         <p-sortIcon [field]="column.field" *ngIf="!column.subHeaders"></p-sortIcon>
       </th>
+      <th [rowSpan]="2"></th>
     </tr>
     <tr>
       <th *ngFor="let column of apiService.columnsWithSubColumns$ | async"
@@ -54,6 +55,9 @@
         </span>
         <ng-template #simpleColumn><span>{{ sale[column.field] }}</span></ng-template>
       </td>
+      <td>
+        <a [routerLink]="[sale.productID, 'edit']" title="Edit {{ sale.productName }}"><i class="pi pi-pencil"></i></a>
+      </td>
     </tr>
   </ng-template>
 
@@ -65,6 +69,7 @@
           class="text-right">
         {{ getTotal$(column) | async | number }}
       </td>
+      <td></td>
     </tr>
   </ng-template>
 

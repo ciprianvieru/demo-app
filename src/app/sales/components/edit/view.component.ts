@@ -42,7 +42,7 @@ export class ViewComponent implements OnInit {
 
     this.sale$ = this.params$
       .pipe(
-        map(params => params.id || null),
+        map(params => params.productID),
         distinctUntilChanged(),
         switchMap(id => apiService.get(id)),
         map(product => product || ModelFactory.createProduct()),

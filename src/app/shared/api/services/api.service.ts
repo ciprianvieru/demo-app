@@ -67,8 +67,10 @@ export class APIService {
 
   save(sale: Product): Observable<Product> {
     if (!sale.productID) {
-      sale.productID = Math.floor(Math.random() * 1e10).toString();
+      sale.productID = Math.floor(Math.random() * 1e13).toString();
       this.products$.next(this.products$.value.concat([sale]));
+    } else {
+      this.products$.next(this.products$.value.map(p => p.productID === sale.productID ? sale : p));
     }
 
     return this.products$.pipe(

@@ -7,8 +7,8 @@ import {UserService} from './auth/services/user.service';
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      { path: 'index.html', redirectTo: '/home', pathMatch: 'full' },
-      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      {path: 'index.html', redirectTo: '/home', pathMatch: 'full'},
+      {path: '', redirectTo: '/home', pathMatch: 'full'},
       {
         path: 'home',
         component: HomeComponent,

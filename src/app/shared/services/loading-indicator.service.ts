@@ -7,54 +7,55 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 @Injectable()
 export class LoadingIndicatorService {
-    indicator = new LoadingIndicator();
+  indicator = new LoadingIndicator();
 
-    constructor(private errorService: ErrorService) { }
+  constructor(private errorService: ErrorService) {
+  }
 
-    startLoading(indicator?: LoadingIndicator): LoadingIndicator {
-        this.indicator.startLoading();
-        if (indicator && indicator !== this.indicator) {
-            indicator.startLoading();
-        }
-
-        return indicator || this.indicator;
+  startLoading(indicator?: LoadingIndicator): LoadingIndicator {
+    this.indicator.startLoading();
+    if (indicator && indicator !== this.indicator) {
+      indicator.startLoading();
     }
 
-    stopLoading(indicator?: LoadingIndicator): LoadingIndicator {
-        this.indicator.stopLoading();
-        if (indicator && indicator !== this.indicator) {
-            indicator.stopLoading();
-        }
+    return indicator || this.indicator;
+  }
 
-        return indicator || this.indicator;
+  stopLoading(indicator?: LoadingIndicator): LoadingIndicator {
+    this.indicator.stopLoading();
+    if (indicator && indicator !== this.indicator) {
+      indicator.stopLoading();
     }
 
-    stopOnError(indicator?: LoadingIndicator): LoadingIndicator {
-        this.indicator.stopOnError();
-        if (indicator && indicator !== this.indicator) {
-            indicator.stopOnError();
-        }
+    return indicator || this.indicator;
+  }
 
-        return indicator || this.indicator;
+  stopOnError(indicator?: LoadingIndicator): LoadingIndicator {
+    this.indicator.stopOnError();
+    if (indicator && indicator !== this.indicator) {
+      indicator.stopOnError();
     }
 
-    startObserving<T = any>(input: Observable<T>, indicator?: LoadingIndicator): Observable<T> {
-        return new Observable<T>(subscriber => {
-            this.startLoading(indicator);
-            input
-                .pipe(
-                    catchError((err: HttpErrorResponse) => {
-                      this.stopOnError(indicator);
-                      this.errorService.catch(err.statusText);
+    return indicator || this.indicator;
+  }
 
-                      return of(null);
-                    }),
-                    finalize(() => {
-                        this.stopLoading(indicator);
-                    }),
-                )
-                .subscribe(subscriber)
-            ;
-        });
-    }
+  startObserving<T = any>(input: Observable<T>, indicator?: LoadingIndicator): Observable<T> {
+    return new Observable<T>(subscriber => {
+      this.startLoading(indicator);
+      input
+        .pipe(
+          catchError((err: HttpErrorResponse) => {
+            this.stopOnError(indicator);
+            this.errorService.catch(err.statusText);
+
+            return of(null);
+          }),
+          finalize(() => {
+            this.stopLoading(indicator);
+          }),
+        )
+        .subscribe(subscriber)
+      ;
+    });
+  }
 }

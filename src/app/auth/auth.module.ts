@@ -13,4 +13,5 @@ import {SharedModule} from '../shared/shared.module';
     UserService,
   ],
 })
-export class AuthModule { }
+export class AuthModule {
+}

@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Route, Router} from '@angular/router';
-import {BehaviorSubject, combineLatest, Observable, of} from 'rxjs';
-import {distinctUntilChanged, filter, map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {BehaviorSubject, combineLatest, Observable} from 'rxjs';
+import {distinctUntilChanged, filter, map, switchMap, tap} from 'rxjs/operators';
 import {APIService} from '../../../shared/api/services/api.service';
 import {Product} from '../../../shared/api/models/product.model';
 import {ModelFactory} from '../../../shared/api/models/model-factory';
@@ -13,9 +13,8 @@ import {Column} from '../../../shared/api/models/column.model';
 @Component({
   selector: 'app-edit',
   templateUrl: './view.component.html',
-  styleUrls: ['./view.component.scss']
 })
-export class ViewComponent implements OnInit {
+export class ViewComponent {
   sale$: Observable<Product>;
   mode$: Observable<EntityMode>;
   columns$: Observable<Column[]>;
@@ -34,7 +33,7 @@ export class ViewComponent implements OnInit {
 
     this.params$ = combineLatest([route.data, route.params])
       .pipe(
-        map(([data, params]) => <any> { ...data, ...params }),
+        map(([data, params]) => <any> {...data, ...params}),
       )
     ;
     this.mode$ = this.params$.pipe(map(params => params.mode || EntityMode.VIEW));
@@ -79,9 +78,6 @@ export class ViewComponent implements OnInit {
     ;
   }
 
-  ngOnInit(): void {
-  }
-
   private buildModelForm(product: Product): ModelForm<Product> {
     return Object.keys(product)
       .map((k: keyof Product) => [k, [product[k], k !== 'productID' ? [Validators.required] : []]])
@@ -89,6 +85,6 @@ export class ViewComponent implements OnInit {
         ...controls,
         [k]: controlSpec,
       }, <ModelForm<Product>> {})
-    ;
+      ;
   }
 }

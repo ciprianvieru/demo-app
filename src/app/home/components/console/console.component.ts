@@ -1,16 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {ErrorService} from '../../../shared/services/error.service';
 
 @Component({
   selector: 'app-console',
   templateUrl: './console.component.html',
-  styleUrls: ['./console.component.scss']
 })
-export class ConsoleComponent implements OnInit {
+export class ConsoleComponent {
 
-  constructor(public errorService: ErrorService) { }
-
-  ngOnInit(): void {
+  constructor(public errorService: ErrorService) {
   }
 
   dismiss(index: number) {

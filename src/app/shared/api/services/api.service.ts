@@ -39,7 +39,7 @@ export class APIService {
         map(columns => columns.reduce((subColumns, column) => subColumns.concat(...(column.subHeaders || [])), [])),
       );
     this.numberColumns$ = this.columnsWithSubColumns$
-      .pipe(map(columns => columns.concat([<Column> { field: 'total', header: 'Total'}])));
+      .pipe(map(columns => columns.concat([<Column> {field: 'total', header: 'Total'}])));
     this.valueColumns$ = this.columnsSubject$
       .pipe(
         map(columns => columns.reduce((valueColumns, column) =>
@@ -62,7 +62,7 @@ export class APIService {
       .pipe(
         map(products => products.find(p => p.productID === id)),
       )
-    ;
+      ;
   }
 
   save(sale: Product): Observable<Product> {

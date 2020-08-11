@@ -19,4 +19,5 @@ import {ViewComponent} from './components/edit/view.component';
     RoutingModule,
   ],
 })
-export class SalesModule { }
+export class SalesModule {
+}

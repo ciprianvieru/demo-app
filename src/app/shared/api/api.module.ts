@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {APIService} from './services/api.service';
 import {HttpClientModule} from '@angular/common/http';
 
@@ -13,4 +13,5 @@ import {HttpClientModule} from '@angular/common/http';
     APIService,
   ],
 })
-export class ApiModule { }
+export class ApiModule {
+}
